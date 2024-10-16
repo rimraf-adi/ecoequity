@@ -25,7 +25,7 @@ export class Engine {
             const message = await client.brpop('orders_from_api', 1000);
             console.log(message)
             if (message) {
-                this.executeTrade(message)
+                this.tradeAndPush(message)
 
 
             }
@@ -33,7 +33,7 @@ export class Engine {
         }
     }
 
-    private async executeTrade(message: [string, string]){
+    private async tradeAndPush(message: [string, string]){
         if (message) {
             //extract msg
             const parsedMessage = JSON.parse(message[1]);
@@ -44,19 +44,17 @@ export class Engine {
                 //buy/sell
                 if (kind == 'buy') ob.buy(price, quantity);
                 else ob.sell(price, quantity)
-                //printing for debugging purposes
-                // ob.printDepth();
                 
                 const depth : type_Depth = ob.getDepth();
+                //TODO : get rid of this prisma call
                 const object = await prisma.solBackup.create({
                     data : {
                         curr_price : depth.current_price,
                         bids : depth.bids,
                         asks : depth.asks
-
-
                     }
                 })
+                //printing for debugging purposes
                 console.log(object);
             }
             else console.error('invalid market')
@@ -66,12 +64,6 @@ export class Engine {
 
 
 
-    private async publishMessage(channel: string, message: string) {
-        try { await client.publish(channel, message) }
-        catch (error) { console.log(error, 'lafda hogaya re, redis error!') }
-
-
-    }
 }
 
 
