@@ -44,20 +44,13 @@ export class Engine {
                 //buy/sell
                 if (kind == 'buy') ob.buy(price, quantity);
                 else ob.sell(price, quantity)
-                
-                
                 const depth : type_Depth = ob.getDepth();
                 console.log(depth)
-                //TODO : get rid of this prisma call
-                // const object = await prisma.solBackup.create({
-                //     data : {
-                //         curr_price : depth.current_price,
-                //         bids : depth.bids,
-                //         asks : depth.asks
-                //     }
-                // })
-                //printing for debugging purposes
-                // console.log(object);
+                const bids = ob.bids;
+                const asks = ob.asks;
+                const cp = ob.currentPrice;
+                client.lpush('database_engine', JSON.stringify({market, cp, bids, asks}))
+
             }
             else console.error('invalid market')
         }
