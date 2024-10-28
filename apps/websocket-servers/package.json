@@ -1,0 +1,21 @@
+{
+  "name": "4_websocket_logic",
+  "version": "1.0.0",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "build": "tsc -b",
+    "dev": "node dist/index.js"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "description": "",
+  "dependencies": {
+    "@types/express": "^5.0.0",
+    "@types/ws": "^8.5.12",
+    "express": "^4.21.1",
+    "ioredis": "^5.4.1",
+    "ws": "^8.18.0"
+  }
+}
