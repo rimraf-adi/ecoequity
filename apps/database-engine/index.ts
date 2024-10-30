@@ -2,4 +2,4 @@ import { Engine } from "./engine";
 
 const engine = new Engine()
 
-engine.push()
+engine.run()

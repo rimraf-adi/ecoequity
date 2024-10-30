@@ -1,0 +1,1 @@
+export const DATABASE_URL = "postgresql://backup-db_owner:W6Kfk7bAnXed@ep-calm-bar-a5xxpnj7.us-east-2.aws.neon.tech/backup-db?sslmode=require"
