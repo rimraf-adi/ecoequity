@@ -1,4 +1,4 @@
-import { type_orderbook, type_Price, type_AskSide, type_BidSide, type_Quantity, type_Depth } from "./types"
+import { type_Orderbook, type_Price, type_AskSide, type_BidSide, type_Quantity, type_Depth } from "./types"
 
 export class Orderbook {
 
@@ -163,5 +163,5 @@ export class Orderbook {
 const bids = [[144.24, 0.80], [144.26, 116.81], [144.25, 69.87], [144.23, 138.67], [144.22, 34.65], [144.21, 0.03], [144.20, 138.68], [144.19, 34.73], [144.18, 138.71]];
 const asks = [[144.35, 0.21], [144.37, 138.73], [144.38, 148.96], [144.34, 34.08], [144.33, 34.67], [144.31, 138.66], [144.30, 34.65], [144.29, 17.32], [144.28, 85.55]];
 
-export const sol_usdc_ob: type_orderbook = new Orderbook(bids, asks, 'SOL/USDC');
-export const eth_usdc_ob: type_orderbook = new Orderbook([], [], "ETH/USDC");
+export const sol_usdc_ob: type_Orderbook = new Orderbook(bids, asks, 'SOL/USDC');
+export const eth_usdc_ob: type_Orderbook = new Orderbook([], [], "ETH/USDC");

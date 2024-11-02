@@ -32,3 +32,16 @@ export const order = async (req: Request, res: Response) => {
         res.status(400).send({ success: false, message: "zod ne bakchodi kar di bhai", errors: result.error });
     }
 };
+
+
+
+export const createBook = async (req : Request, res : Response)=>{
+    const {book} = req.body;
+    try {
+        await client.lpush('books', JSON.stringify(book));
+        res.status(500).send(`new book ${book} created successfully`);
+        
+    } catch (error) {
+        res.status(500).send("something's wrong i can feel it");
+    }
+}

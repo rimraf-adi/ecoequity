@@ -2,6 +2,8 @@
   "name": "ecoequity",
   "private": true,
   "scripts": {
+    "wbuild": "turbo wbuild",
+    
     "build": "turbo build",
     "dev": "turbo dev",
     "lint": "turbo lint",

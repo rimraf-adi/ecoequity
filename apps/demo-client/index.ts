@@ -1,7 +1,7 @@
 import axios from 'axios';
 
 const requestsPerSecond = 1;
-const totalRequests = 5;
+const totalRequests = 100   ;
 
 function generateRandomOrder() {
     const market = 'sol_usdc'
@@ -22,11 +22,11 @@ async function sendRequests() {
     let requestsSent = 0;
 
     const intervalId = setInterval(async () => {
-        // if (requestsSent >= totalRequests) {
-        //     clearInterval(intervalId);
-        //     console.log(`Finished sending ${totalRequests} requests.`);
-        //     return;
-        // }
+        if (requestsSent >= totalRequests) {
+            clearInterval(intervalId);
+            console.log(`Finished sending ${totalRequests} requests.`);
+            return;
+        }
 
         const data = generateRandomOrder();
 
@@ -38,7 +38,7 @@ async function sendRequests() {
         }
 
         requestsSent++;
-    }, 100);
+    }, 1000/requestsPerSecond);
 }
 
 sendRequests();

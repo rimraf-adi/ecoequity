@@ -5,7 +5,7 @@ export type type_Quantity = number;
 export type type_BidSide = number[][];
 export type type_AskSide = number[][];
 export type type_Market = string;
-export type type_orderbook = Orderbook 
+export type type_Orderbook = Orderbook 
 
 export interface type_UserBalances {
     userID : String,
