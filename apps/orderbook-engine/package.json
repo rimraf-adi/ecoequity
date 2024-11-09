@@ -1,5 +1,5 @@
 {
-  "name": "2_orderbook_engine",
+  "name": "orderbook_engine",
   "version": "1.0.0",
   "main": "index.js",
   "scripts": {

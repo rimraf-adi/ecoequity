@@ -1,13 +1,10 @@
 {
-  "name": "4_websocket_logic",
+  "name": "websocket_servers",
   "version": "1.0.0",
   "main": "index.js",
   "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1",
-    "wbuild" : "tsc -w",
-    "build" : "tsc -b",
-    "start" : "node dist/index.js",
-    "dev" : "nodemon dist/index.js"
+    "test": "echo \"Error: no test specified\" && exit 1"
+    
   },
   "keywords": [],
   "author": "",
