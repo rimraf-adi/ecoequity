@@ -11,7 +11,6 @@ server.listen(4000, () => {
   console.log("Server listening on port 4000");
 });
 
-// WebSocket Server
 const wss = new WebSocketServer({ server });
 
 // Redis subscriber

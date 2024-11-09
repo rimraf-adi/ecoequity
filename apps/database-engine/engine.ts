@@ -15,14 +15,14 @@ export class Engine {
       if (msg) {
         const data = JSON.parse(msg[1]);
         // console.log(data)
-        const backup = await prisma.solBackup.create({
-          data: {
-            curr_price: data.cp,
-            bids: data.bids,
-            asks: data.asks,
-          },
-        });
-        client.lpush("ohlc_calculator", JSON.stringify({price : data.cp, date : new Date().toLocaleDateString(), time : new Date().toLocaleTimeString()}));
+        // const backup = await prisma.solBackup.create({
+        //   data: {
+        //     curr_price: data.cp,
+        //     bids: data.bids,
+        //     asks: data.asks,
+        //   },
+        // });
+        client.lpush("ohlc_calculator", JSON.stringify({price : data.cp, timestamp: Math.floor(Date.now()/1000)}));
 
         // const timeseries = await prisma.timeSeriesSol.create({
         //     data: {
