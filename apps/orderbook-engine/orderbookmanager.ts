@@ -13,7 +13,12 @@ export class OrderbookManager {
         this.orderbooks.set(market, ob);
 
     }
-
+    public handleMissingOrderbooks(market : type_Market){
+        const tempOB : type_Orderbook = new Orderbook([],[],market)
+        obm.push(market, tempOB);
+        return tempOB;
+        
+    }
 
 };
 

@@ -52,7 +52,7 @@ export class Orderbook {
     }
 
     public buy(price: type_Price, quantity: type_Quantity): void {
-        if (!this.bids.length) { this.bids.push([price, quantity]) };
+        if (!this.bids.length) { this.bids.push([price, quantity]); return; };
 
         const bestAsk: type_Price[] = this.asks[0];
         const bestBid: type_Price[] = this.bids[0];
@@ -106,7 +106,7 @@ export class Orderbook {
     }
 
     public sell(price: type_Price, quantity: type_Quantity): void {
-        if (!this.asks.length) { this.asks.push([price, quantity]) };
+        if (!this.asks.length) { this.asks.push([price, quantity]); return; };
         const bestAsk: type_Price[] = this.asks[0];
         const bestBid: type_Price[] = this.bids[0];
 

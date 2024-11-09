@@ -34,14 +34,18 @@ export const order = async (req: Request, res: Response) => {
 };
 
 
-
-export const createBook = async (req : Request, res : Response)=>{
-    const {book} = req.body;
-    try {
-        await client.lpush('books', JSON.stringify(book));
-        res.status(500).send(`new book ${book} created successfully`);
-        
-    } catch (error) {
-        res.status(500).send("something's wrong i can feel it");
+export const createBook = async (req: Request, res: Response) => {
+    const { book } = req.body;
+    if (!book) {
+        res.status(400).send("Book data is missing in the request body.");
     }
-}
+
+    try {
+        const bookString = JSON.stringify(book);
+        await client.lpush('books', bookString);
+        res.status(201).send(`New book ${book} created successfully`);
+    } catch (error) {
+        console.error("Error creating book:", error);
+        res.status(500).send("Something's wrong, I can feel it");
+    }
+};

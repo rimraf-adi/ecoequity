@@ -17,27 +17,24 @@ export class Engine {
 
     }
 
-      public async run() {
+    public async run() {
         while (1) {
             const order = await client.brpop('orders_from_api', 10000);
-            const newBook = await client.brpop('books', 10000);
+
             // console.log(message)
-            if(!order) {console.error('inside engine, message nahi aaya'); return;}
+            if (!order) { console.error('inside engine, message nahi aaya'); return;}
 
-            this.execute(order, newBook);
+            // this.execute(order, newBook);
 
 
-        }
-    }
-
-    private async execute(order: [string,string], newBook: [string,string]){
-        if (order) {
             //extract msg
-            const parsedOrder = JSON.parse(order[0]);
+            const parsedOrder = JSON.parse(order[1]);
             const { kind, market, price, quantity } = parsedOrder;
             //get orderbook
-            const ob: type_Orderbook | any = obm.orderbooks.get(market);
+            const ob: type_Orderbook | any = obm.orderbooks.get(market) ? obm.orderbooks.get(market) : obm.handleMissingOrderbooks(market)
+
             if (ob) {
+
                 //buy/sell
                 if (kind == 'buy') ob.buy(price, quantity);
                 else ob.sell(price, quantity)
@@ -47,23 +44,16 @@ export class Engine {
                 const bids = ob.bids;
                 const asks = ob.asks;
                 const cp = ob.currentPrice;
-                client.lpush('database_engine', JSON.stringify({parsedOrder, cp, bids, asks}))
+                client.lpush('database_engine', JSON.stringify({ parsedOrder, cp, bids, asks }))
                 //TODO, generalise the publisher message
-                client.publish('DEPTH',JSON.stringify({asks,bids}))
+                client.publish('DEPTH', JSON.stringify({ asks, bids }))
 
             }
-            else console.error('invalid market')
+
         }
-        if(newBook){
-            const parsedBook = newBook[0];
-            obm.push(parsedBook,new Orderbook([],[],parsedBook));
-            
-        }
-        else console.error('empty queue!')
+
     }
-
-
-
 }
+
 
 
