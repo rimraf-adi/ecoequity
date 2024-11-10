@@ -22,3 +22,12 @@ model backup {
   asks Json[]
 
 }
+model ohlc {
+  id Int @unique @default(autoincrement())
+  open Float
+  high Float
+  low Float
+  close Float
+  timestamp Int
+  market String
+}

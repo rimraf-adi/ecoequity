@@ -13,10 +13,21 @@ datasource db {
   url      = env("DATABASE_URL")
 }
 
-model sol_ohlc {
+
+model backup {
+  id Int @id @default(autoincrement())
+  market String
+  curr_price Float
+  bids Json[]
+  asks Json[]
+
+}
+model OHLC {
   id Int @unique @default(autoincrement())
   open Float
   high Float
   low Float
   close Float
+  timestamp Int
+  market String
 }

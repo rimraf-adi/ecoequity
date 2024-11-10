@@ -7,20 +7,23 @@
 import { Calculator } from './calculator';
 import { type_bucket } from './types';
 import { Redis } from 'ioredis';
+import { PrismaClient } from '@prisma/client';
+
 const client = new Redis();
+const prismaclient = new PrismaClient()
 const interval: number = 5; //seconds
 // 
 let intervalBuckets: type_bucket[] = []
 
 
-const calculatorSystem = new Calculator()
+const calculatorSystem = new Calculator(prismaclient)
 
 
 async function main() {
     while (true) {
         const data = await client.brpop('ohlc_calculator', 100000);
         const parsedData = JSON.parse(data[1]);
-        console.log(parsedData)
+        // console.log(parsedData)
         calculatorSystem.calculate(parsedData, interval)
        
 

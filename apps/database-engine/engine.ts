@@ -17,13 +17,14 @@ export class Engine {
         // console.log(data)
         const backup = await prisma.backup.create({
           data: {
-            market : data.market,
+            market : data.parsedOrder.market,
             curr_price: data.cp,
             bids: data.bids,
             asks: data.asks,
           },
         });
-        client.lpush("ohlc_calculator", JSON.stringify({price : data.cp, timestamp: Math.floor(Date.now()/1000)}));
+        console.log(backup)
+        client.lpush("ohlc_calculator", JSON.stringify({price : data.cp, timestamp: Math.floor(Date.now()/1000), market : data.parsedOrder.market}));
 
  
       }
