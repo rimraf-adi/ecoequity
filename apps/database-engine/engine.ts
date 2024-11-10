@@ -11,26 +11,21 @@ export class Engine {
   public async run() {
     while (1) {
       //{kind, market,price , quantity}, cp, bids , asks
-      const msg = await client.brpop("database_engine", 100);
+      const msg = await client.brpop("database_engine", 10000);
       if (msg) {
         const data = JSON.parse(msg[1]);
         // console.log(data)
-        // const backup = await prisma.solBackup.create({
-        //   data: {
-        //     curr_price: data.cp,
-        //     bids: data.bids,
-        //     asks: data.asks,
-        //   },
-        // });
+        const backup = await prisma.backup.create({
+          data: {
+            market : data.market,
+            curr_price: data.cp,
+            bids: data.bids,
+            asks: data.asks,
+          },
+        });
         client.lpush("ohlc_calculator", JSON.stringify({price : data.cp, timestamp: Math.floor(Date.now()/1000)}));
 
-        // const timeseries = await prisma.timeSeriesSol.create({
-        //     data: {
-        //         current_price: data.cp,
-        //         time: new Date().toLocaleTimeString('en-IN')
-        //     }
-        // })
-        // console.log(timeseries)
+ 
       }
     }
   }

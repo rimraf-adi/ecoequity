@@ -25,7 +25,6 @@ subscriber.subscribe('DEPTH', (err, count) => {
   }
 });
 
-// When a message is received from the Redis 'DEPTH' channel, broadcast it to all WebSocket clients
 subscriber.on('message', (channel, message) => {
   if (channel === 'DEPTH') {
     console.log(`Received message from ${channel}: ${message}`);
