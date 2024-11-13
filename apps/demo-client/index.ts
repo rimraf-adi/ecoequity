@@ -1,7 +1,7 @@
 import axios from "axios";
 
 const requestsPerSecond = 1;
-const totalRequests = 100;
+const totalRequests = 25;
 
 function generateRandomOrder() {
   const market = "sol_usdc";
