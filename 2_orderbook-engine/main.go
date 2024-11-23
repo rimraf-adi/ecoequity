@@ -1,26 +1,23 @@
 package main
 
 import (
-	"fmt"
-	"engine/orderbook"
 	"container/heap"
+	"engine/orderbook"
+	"fmt"
 )
 
-
-func main(){
-	// bids := &MaxHeap{}
-	// asks := &MinHeap{}
-	// heap.Init(bids)
-	// heap.Init(asks)
+func main() {
 
 	fmt.Println("engine started")
-	ob := orderbook.Orderbook{
-		Market : "SOL/USDC",
-		Asks : &orderbook.MinHeap{},
-		Bids : &orderbook.MaxHeap{},
-		CurrentPrice : 0,
-	}
 
+	//boilerplate orderbook code
+
+	ob := orderbook.Orderbook{
+		Market:       "SOL/USDC",
+		Asks:         &orderbook.MinHeap{},
+		Bids:         &orderbook.MaxHeap{},
+		CurrentPrice: 0,
+	}
 
 	heap.Push(ob.Bids, &orderbook.OrderEntry{Price: 100.5, Quantity: 10})
 	heap.Push(ob.Bids, &orderbook.OrderEntry{Price: 101.0, Quantity: 5})
@@ -29,5 +26,17 @@ func main(){
 	heap.Push(ob.Asks, &orderbook.OrderEntry{Price: 98.5, Quantity: 15})
 	heap.Push(ob.Asks, &orderbook.OrderEntry{Price: 97.0, Quantity: 8})
 
-	
+
+
+	// fmt.Println(value1, value2)
+	fmt.Println("Bids:")
+	for _, bid := range *ob.Bids {
+		fmt.Printf("Price: %.2f, Amount: %.2f\n", bid.Price, bid.Quantity)
+	}
+
+	fmt.Println("Asks:")
+	for _, ask := range *ob.Asks {
+		fmt.Printf("Price: %.2f, Amount: %.2f\n", ask.Price, ask.Quantity)
+	}
+
 }

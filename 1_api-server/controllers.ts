@@ -9,8 +9,12 @@ const orderSchema = z.object({
     price: z.number(),
     quantity: z.number(),
 });
-
 type Order = z.infer<typeof orderSchema>;
+
+const bookSchema = z.object({
+    book : z.string()
+})
+type Book = z.infer<typeof bookSchema>;
 
 export const hello_world = (req: Request, res: Response) => { res.send('hello world') };
 
@@ -34,18 +38,19 @@ export const order = async (req: Request, res: Response) => {
 };
 
 
-// export const createBook = async (req: Request, res: Response) => {
-//     const { book } = req.body;
-//     if (!book) {
-//         res.status(400).send("Book data is missing in the request body.");
-//     }
+export const createBook = async (req: Request, res: Response) => {
+    const result = bookSchema.safeParse(req.body);
 
-//     try {
-//         const bookString = JSON.stringify(book);
-//         await client.lpush('books', bookString);
-//         res.status(201).send(`New book ${book} created successfully`);
-//     } catch (error) {
-//         console.error("Error creating book:", error);
-//         res.status(500).send("Something's wrong, I can feel it");
-//     }
-// };
+    if (!result.success) {
+        res.status(400).send("Book data is missing in the request body.");
+    }
+
+    try {
+        const bookString = JSON.stringify(result.data);
+        await client.lpush('books', bookString);
+        res.status(201).send(`New book ${result.data} created successfully`);
+    } catch (error) {
+        console.error("Error creating book:", error);
+        res.status(500).send("Something's wrong, I can feel it");
+    }
+};
