@@ -1,6 +1,7 @@
 import { Request, Response } from "express";
 import { Redis } from "ioredis";
 import { z } from "zod";
+import { publisher } from "./pubsub";
 const client = new Redis();
 
 const orderSchema = z.object({
@@ -26,9 +27,9 @@ export const order = async (req: Request, res: Response) => {
         const order: Order = result.data;
         
         try {
-            await client.lpush('orders_from_api', JSON.stringify(order));
-
-            res.status(200).send({ success: true, message: "Order placed in the queue", details: order });
+            // await client.lpush('orders_from_api', JSON.stringify(order));
+            publisher.publish(`${order.market}`,JSON.stringify(order));
+            res.status(200).send({ success: true, message: "Order placed in the pubsub", details: order });
         } catch (error) {
             res.status(500).send({ success: false, message: "Code dekh lawde, push has failed" });
         }

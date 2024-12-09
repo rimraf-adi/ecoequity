@@ -48,7 +48,9 @@ func pop(queue string) []string {
 	return result
 }
 
+func executeTrade(tempOB *orderbook.Orderbook,parsedData *orderbook.Order) *orderbook.Order {
 
+}
 
 func main() {
 
@@ -65,7 +67,26 @@ func main() {
 		if(error != nil){log.Fatal(error);}
 
 		if(tempOB != nil){
-			updatedData := executeTrade(tempOB,parsedData)
+			data := executeTrade(tempOB,&parsedData);
+			type Dbqueue struct {
+				kind string
+				market string
+				price float64
+				quantity float64
+				currentPrice float64
+				asks []float64
+				bids []float64 
+			}
+			updatedData := Dbqueue{
+				kind : data.Kind,
+				market : data.Market,
+				price : data.Price,
+				quantity: float64(data.Quantity)
+			}
+			
+
+			data,err := json.Marshal(updatedData);
+			push("database_engine",string(jsonData));
 		}
 		
 
