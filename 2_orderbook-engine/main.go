@@ -2,7 +2,7 @@ package main
 
 import (
 	"encoding/json"
-	"errors"
+	// "errors"
 	"fmt"
 	"log"
 
@@ -49,7 +49,15 @@ func pop(queue string) []string {
 }
 
 func executeTrade(tempOB *orderbook.Orderbook,parsedData *orderbook.Order) *orderbook.Order {
-
+	if(parsedData.Kind == "buy"){tempOB.Buy(parsedData.Price,float64(parsedData.Quantity));}
+	if(parsedData.Kind == "sell"){tempOB.Sell(parsedData.Price,float64(parsedData.Quantity))};
+	returnOrder := orderbook.Order{
+		Kind: parsedData.Kind,
+		Market: tempOB.Market,
+		Price: tempOB.CurrentPrice,
+		Quantity:parsedData.Quantity,
+	}
+	return &returnOrder;
 }
 
 func main() {
@@ -57,12 +65,13 @@ func main() {
 	fmt.Println("engine started")
 	for {
 		order := pop("orders_from_api")
-
+		fmt.Println(order[1]);
 		var parsedData orderbook.Order
 		err := json.Unmarshal([]byte(order[1]), &parsedData)
 		if err != nil {log.Fatal("nahi hua parse, check unmarshal")}
-
+		//debug call
 		fmt.Println(parsedData)
+
 		tempOB,error:= obmInstance.GetOrderbook(parsedData.Market);
 		if(error != nil){log.Fatal(error);}
 
@@ -74,19 +83,27 @@ func main() {
 				price float64
 				quantity float64
 				currentPrice float64
-				asks []float64
-				bids []float64 
+				asks orderbook.MinHeap
+				bids orderbook.MaxHeap
 			}
 			updatedData := Dbqueue{
 				kind : data.Kind,
 				market : data.Market,
 				price : data.Price,
-				quantity: float64(data.Quantity)
+				quantity: float64(data.Quantity),
+				currentPrice: tempOB.CurrentPrice,
+				asks: *tempOB.Asks,
+				bids: *tempOB.Bids,
 			}
 			
-
-			data,err := json.Marshal(updatedData);
+			jsonData,err := json.Marshal(updatedData);
+			if(err!= nil) {log.Fatal(err)};
 			push("database_engine",string(jsonData));
+			
+			//depth debug call
+			fmt.Println(tempOB.Asks);
+			fmt.Println(tempOB.Bids);
+
 		}
 		
 

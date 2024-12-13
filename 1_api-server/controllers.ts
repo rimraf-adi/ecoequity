@@ -5,10 +5,10 @@ import { publisher } from "./pubsub";
 const client = new Redis();
 
 const orderSchema = z.object({
-    kind: z.enum(['buy', 'sell']),
-    market: z.string(),
-    price: z.number(),
-    quantity: z.number(),
+    Kind: z.enum(['buy', 'sell']),
+    Market: z.string(),
+    Price: z.number(),
+    Quantity: z.number(),
 });
 type Order = z.infer<typeof orderSchema>;
 
